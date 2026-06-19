@@ -10,8 +10,8 @@
 
     :root {
       --cream: #F5F0E8;
-      --cream-dark: #EDE7D9;
-      --cream-card: #EAE4D6;
+      --cream-dark: #E0D8C8;
+      --cream-card: #D8CEBC;
       --gold: #C9A84C;
       --gold-light: #D4B86A;
       --brown: #0F0804;
@@ -182,14 +182,15 @@
     }
     .card {
       background: var(--cream-card);
-      border: 1px solid rgba(201,168,76,0.2);
+      border: 1px solid rgba(201,168,76,0.4);
       border-radius: 14px;
       padding: 32px;
+      box-shadow: 0 2px 12px rgba(26,16,8,0.08);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .card:hover {
-      border-color: rgba(201,168,76,0.5);
-      box-shadow: 0 8px 36px rgba(26,16,8,0.06);
+      border-color: rgba(201,168,76,0.7);
+      box-shadow: 0 8px 36px rgba(26,16,8,0.12);
     }
     .card-icon {
       width: 36px;
@@ -272,7 +273,8 @@
       height: auto;
       display: block;
       border-radius: 28px;
-      box-shadow: 0 24px 64px rgba(26,16,8,0.18);
+      box-shadow: 0 24px 64px rgba(26,16,8,0.28), 0 4px 16px rgba(26,16,8,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
     }
     .mock {
       width: 100%;
