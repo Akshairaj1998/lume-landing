@@ -588,6 +588,10 @@
       .waitlist-form button { border-radius: 8px; }
 
       .stats-inner { grid-template-columns: 1fr 1fr; gap: 24px; }
+
+      /* analytics grid on mobile */
+      .analytics-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .analytics-labels { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -693,6 +697,45 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ANALYTICS SECTION -->
+<section style="padding-top:100px;padding-bottom:100px;">
+  <p class="section-label reveal">Collection Intelligence</p>
+  <h2 class="reveal delay-1">Know your collection<br/>inside and out.</h2>
+  <p class="section-sub reveal delay-2">Detailed analytics on your collection — growth over time, brand diversity, estimated value, top pieces, and milestones. Everything in one dashboard.</p>
+
+  <div class="reveal delay-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+      <img src="screenshot-analytics-overview.png.png" alt="Collection Overview" style="width:100%;border-radius:20px;box-shadow:0 16px 48px rgba(26,16,8,0.2);border:1px solid rgba(201,168,76,0.3);" />
+      <p style="font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);text-align:center;">Overview</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:32px;">
+      <img src="screenshot-analytics-value.png.png" alt="Collection Value" style="width:100%;border-radius:20px;box-shadow:0 16px 48px rgba(26,16,8,0.2);border:1px solid rgba(201,168,76,0.3);" />
+      <p style="font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);text-align:center;">Value</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+      <img src="screenshot-analytics-brands.png.png" alt="Brand Analytics" style="width:100%;border-radius:20px;box-shadow:0 16px 48px rgba(26,16,8,0.2);border:1px solid rgba(201,168,76,0.3);" />
+      <p style="font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);text-align:center;">Brands</p>
+    </div>
+  </div>
+
+  <div class="reveal delay-4" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:48px auto 0;">
+    <div style="text-align:center;padding:20px;">
+      <div style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Growth Tracking</div>
+      <p style="font-size:14px;color:var(--brown-muted);line-height:1.7;">See how your collection has grown year by year since your first piece.</p>
+    </div>
+    <div style="text-align:center;padding:20px;">
+      <div style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Portfolio Value</div>
+      <p style="font-size:14px;color:var(--brown-muted);line-height:1.7;">Track the estimated total value of your collection over time.</p>
+    </div>
+    <div style="text-align:center;padding:20px;">
+      <div style="font-family:'Raleway',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Brand Breakdown</div>
+      <p style="font-size:14px;color:var(--brown-muted);line-height:1.7;">Visualise your brand diversity and see which makers dominate your collection.</p>
+    </div>
   </div>
 </section>
 
