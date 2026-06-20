@@ -90,6 +90,22 @@
       width: 100%;
       display: block;
     }
+    .showcase-reveal {
+      opacity: 0;
+      transform: translateY(30px) scale(0.97);
+      transition: opacity 700ms ease-out, transform 700ms ease-out;
+    }
+    .showcase-reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .showcase-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
     .pill {
       display: inline-block;
       font-family: 'Raleway', sans-serif;
@@ -646,7 +662,7 @@
   <p class="section-label reveal">Product Showcase</p>
   <h2 class="reveal delay-1">See Lume in Action</h2>
   <p class="section-sub reveal delay-2">Everything you need to collect, track, preserve, and share your watch journey.</p>
-  <div class="showcase-img-wrap reveal delay-3">
+  <div class="showcase-img-wrap showcase-reveal">
     <img src="hero-bg.png.png" alt="Lume app showcase" />
   </div>
 </section>
@@ -934,6 +950,20 @@
 
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
     observer.observe(el);
+  });
+
+  // Showcase reveal
+  const showcaseObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        showcaseObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.showcase-reveal').forEach(el => {
+    showcaseObserver.observe(el);
   });
 </script>
 
