@@ -497,6 +497,50 @@
       margin: 0 auto;
     }
 
+    /* ── ROADMAP ── */
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 480px;
+      margin: 40px auto 44px;
+      text-align: left;
+    }
+    .roadmap-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .roadmap-icon {
+      font-size: 15px;
+      color: var(--gold);
+      font-weight: 700;
+      min-width: 20px;
+      margin-top: 2px;
+      font-family: 'Raleway', sans-serif;
+    }
+    .roadmap-icon.done { color: var(--gold); }
+    .roadmap-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .roadmap-status {
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .roadmap-status.done { color: var(--gold); }
+    .roadmap-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      color: var(--brown-muted);
+      line-height: 1.55;
+    }
+
     /* ── CTA SECTION ── */
     .cta-btn {
       display: inline-block;
@@ -870,8 +914,33 @@
 <section class="cta-section" id="cta">
   <p class="section-label reveal">Early Access</p>
   <h2 class="reveal delay-1">Ready to join the<br/>first collector circle?</h2>
-  <p class="section-sub reveal delay-2">Lume is opening its first collector circle soon. Join the waitlist and we'll reach out when your spot is ready.</p>
-  <a href="#form1" class="cta-btn reveal delay-3">Join the Waitlist ✦</a>
+  <p class="section-sub reveal delay-2">Core development is nearly complete. Join the waitlist for early access and be among the first collectors to experience Lume.</p>
+
+  <div class="roadmap reveal delay-3">
+    <div class="roadmap-item">
+      <span class="roadmap-icon done">✓</span>
+      <div class="roadmap-text">
+        <span class="roadmap-status done">Core Platform Built</span>
+        <span class="roadmap-desc">Collection management, reminders, community, dream watches and analytics are nearly complete.</span>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <span class="roadmap-icon">→</span>
+      <div class="roadmap-text">
+        <span class="roadmap-status">Early Access Opening Soon</span>
+        <span class="roadmap-desc">The first collector circle will receive access before public launch.</span>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <span class="roadmap-icon">→</span>
+      <div class="roadmap-text">
+        <span class="roadmap-status">Public Launch</span>
+        <span class="roadmap-desc">Welcoming collectors worldwide.</span>
+      </div>
+    </div>
+  </div>
+
+  <a href="#form1" class="cta-btn reveal delay-4">Join the Waitlist ✦</a>
   <p class="free-tag" style="margin-top:20px;">✦ Free to Start</p>
 </section>
 
