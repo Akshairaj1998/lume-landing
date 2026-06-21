@@ -498,6 +498,22 @@
     }
 
     /* ── CTA SECTION ── */
+    .cta-btn {
+      display: inline-block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+      background: var(--gold);
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .cta-btn:hover { background: var(--gold-light); }
     .cta-section {
       text-align: center;
       padding: 100px 24px;
@@ -855,13 +871,8 @@
   <p class="section-label reveal">Early Access</p>
   <h2 class="reveal delay-1">Be among the first<br/>collectors in.</h2>
   <p class="section-sub reveal delay-2">Lume is opening its first collector circle soon. Join the waitlist and we'll reach out when your spot is ready.</p>
-  <form class="waitlist-form" onsubmit="handleSubmit(event)" id="form2" style="margin-bottom:14px;">
-    <input type="email" id="email-input-2" placeholder="collector@domain.com" required />
-    <button type="submit">Join Waitlist</button>
-  </form>
-  <p class="success-msg" id="success-msg-2">✦ &nbsp;You're on the list. We'll be in touch.</p>
-  <p class="hero-note">No noise. Just early access when Lume opens its first collector circle.</p>
-  <p class="free-tag" style="margin-top:10px;">✦ Free to Start</p>
+  <a href="#form1" class="cta-btn reveal delay-3">Join the Waitlist ✦</a>
+  <p class="free-tag" style="margin-top:20px;">✦ Free to Start</p>
 </section>
 
 <!-- 11. FOUNDER -->
