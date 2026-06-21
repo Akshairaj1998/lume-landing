@@ -948,7 +948,7 @@
     </div>
   </div>
 
-  <a href="#form1" class="cta-btn reveal delay-4">Join the Waitlist ✦</a>
+  <a href="#form1" class="cta-btn reveal delay-4" id="cta-waitlist-btn">Join the Waitlist ✦</a>
   <p class="free-tag" style="margin-top:20px;">✦ Free to Start</p>
 </section>
 
@@ -1052,6 +1052,14 @@
 
   document.querySelectorAll('.showcase-reveal').forEach(el => {
     showcaseObserver.observe(el);
+  });
+
+  // CTA button — scroll to form and focus the email input
+  document.getElementById('cta-waitlist-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const input = document.getElementById('email-input');
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => input.focus(), 600);
   });
 </script>
 
