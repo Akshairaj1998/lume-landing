@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lume — Delete Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5F0E8;
+      --cream-dark: #E0D8C8;
+      --gold: #A07820;
+      --brown: #0F0804;
+      --brown-light: #2E1A0E;
+      --brown-muted: #4A3020;
+      --red: #8B2020;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--brown);
+      font-family: 'EB Garamond', serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 56px;
+      border-bottom: 1px solid rgba(160,120,32,0.2);
+      background: var(--cream);
+    }
+    .nav-logo {
+      font-family: 'Raleway', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--brown);
+      text-decoration: none;
+    }
+
+    main {
+      flex: 1;
+      max-width: 720px;
+      width: 100%;
+      margin: 80px auto;
+      padding: 0 24px;
+    }
+
+    h1 {
+      font-family: 'Raleway', sans-serif;
+      font-size: 36px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: var(--brown-muted);
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+
+    .step-card {
+      background: var(--cream-dark, #E0D8C8);
+      border: 1px solid rgba(160,120,32,0.2);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .step-number {
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'Raleway', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--brown);
+    }
+
+    p {
+      font-size: 19px;
+      color: var(--brown-light);
+      line-height: 1.7;
+    }
+
+    .data-list {
+      margin-top: 12px;
+      padding-left: 20px;
+    }
+    .data-list li {
+      font-size: 19px;
+      color: var(--brown-light);
+      margin-bottom: 6px;
+    }
+
+    .warning {
+      background: rgba(139,32,32,0.06);
+      border: 1px solid rgba(139,32,32,0.2);
+      border-radius: 12px;
+      padding: 24px 32px;
+      margin-bottom: 24px;
+    }
+    .warning p {
+      color: var(--red);
+    }
+
+    .email-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-style: normal;
+    }
+    .email-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      border-top: 1px solid rgba(160,120,32,0.2);
+      padding: 32px 56px;
+      text-align: center;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      color: var(--brown-muted);
+    }
+    footer a {
+      color: var(--brown-muted);
+      text-decoration: none;
+      margin: 0 12px;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">LUME</a>
+  </nav>
+
+  <main>
+    <h1>Delete Account</h1>
+    <p class="subtitle">You can delete your Lume account and all associated data directly from within the app.</p>
+
+    <div class="step-card">
+      <div class="step-number">Step 1</div>
+      <h2>Open the Lume App</h2>
+      <p>Sign in to your account and navigate to the <strong>Profile</strong> tab using the bottom navigation bar.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Step 2</div>
+      <h2>Go to Settings</h2>
+      <p>Scroll down to the bottom of your profile and tap <strong>Privacy Settings</strong>, or tap the settings icon.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Step 3</div>
+      <h2>Delete Your Account</h2>
+      <p>Scroll to the bottom and tap <strong>Delete Account</strong>. Confirm the action when prompted.</p>
+    </div>
+
+    <div class="warning">
+      <h2 style="color: var(--red); margin-bottom: 8px;">What gets deleted</h2>
+      <ul class="data-list">
+        <li>Your profile (name, photo, bio)</li>
+        <li>Your entire watch collection and service records</li>
+        <li>All wrist check posts and reminders</li>
+        <li>Your dream watch goal and savings data</li>
+        <li>Your account credentials and authentication data</li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">Need Help?</div>
+      <h2>Contact Support</h2>
+      <p>If you are unable to access the app and need your account deleted, email us at <a href="mailto:support@lumeapp.io" class="email-link">support@lumeapp.io</a> with the subject line <em>"Delete Account Request"</em>. We will process your request within 7 days.</p>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 LUME. All rights reserved.
+    <br style="margin-bottom: 8px;" />
+    <a href="/privacy.html">Privacy Policy</a>
+  </footer>
+</body>
+</html>
