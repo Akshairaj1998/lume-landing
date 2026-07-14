@@ -293,8 +293,8 @@
       const pathParts = window.location.pathname.split('/').filter(Boolean);
       postId = pathParts[pathParts.length - 1];
     }
-    const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.lume.watch';
-    const androidIntentUrl = `intent://lume.app/post/${postId}#Intent;scheme=https;package=com.lume.watch;end`;
+     const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.lume.watch';
+    const androidIntentUrl = `intent://lume-waitlist-delta.vercel.app/post/${postId}#Intent;scheme=https;package=com.lume.watch;end`;
 
     function openInLume() {
       if (/android/i.test(navigator.userAgent)) {
