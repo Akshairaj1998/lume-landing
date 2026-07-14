@@ -124,16 +124,26 @@
     /* Wrist Check Photo Area */
     .image-container {
       width: 100%;
-      height: 380px;
+      height: 280px;
       overflow: hidden;
       position: relative;
       background-color: var(--cream-dark);
+    }
+
+    .transform-wrapper {
+      width: 100%;
+      height: 100%;
+      transform-origin: 0 0;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     .post-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
     /* Content/Caption & Respect Count */
@@ -257,7 +267,9 @@
     </div>
 
     <div class="image-container">
-      <img id="post-image" class="post-image" src="" alt="Wrist Check">
+      <div id="transform-wrapper" class="transform-wrapper">
+        <img id="post-image" class="post-image" src="" alt="Wrist Check">
+      </div>
     </div>
 
     <div class="card-body">
@@ -341,7 +353,8 @@
           .from('profiles')
           .select('display_name, avatar_url')
           .eq('id', post.user_id)
-          .single();
+          .single()
+          .throwOnError();
 
         // 3. Fetch Watch Details (if watch_id exists)
         let watch = null;
@@ -350,21 +363,24 @@
             .from('watches')
             .select('brand, model')
             .eq('id', post.watch_id)
-            .single();
+            .single()
+            .throwOnError();
           watch = w;
         }
 
-        // 4. Fetch Post Media (Image URL)
+        // 4. Fetch Post Media (Image URL & image_transform matrix)
         const { data: media } = await client
           .from('post_media')
-          .select('image_url')
-          .eq('post_id', postId);
+          .select('image_url, image_transform')
+          .eq('post_id', postId)
+          .throwOnError();
 
         // 5. Fetch Respect Count (likes)
         const { count: likesCount } = await client
           .from('post_likes')
           .select('*', { count: 'exact', head: true })
-          .eq('post_id', postId);
+          .eq('post_id', postId)
+          .throwOnError();
 
         // Update UI
         if (profile) {
@@ -381,7 +397,25 @@
         }
 
         if (media && media.length > 0) {
-          document.getElementById('post-image').src = media[0].image_url;
+          const firstMedia = media[0];
+          document.getElementById('post-image').src = firstMedia.image_url;
+
+          const transformWrapper = document.getElementById('transform-wrapper');
+          const postImage = document.getElementById('post-image');
+
+          if (firstMedia.image_transform && firstMedia.image_transform.matrix) {
+            const matrixVals = firstMedia.image_transform.matrix;
+            if (Array.isArray(matrixVals) && matrixVals.length === 16) {
+              transformWrapper.style.transform = `matrix3d(${matrixVals.join(',')})`;
+              postImage.style.objectFit = 'contain';
+            } else {
+              transformWrapper.style.transform = 'none';
+              postImage.style.objectFit = 'cover';
+            }
+          } else {
+            transformWrapper.style.transform = 'none';
+            postImage.style.objectFit = 'cover';
+          }
         }
 
         if (post.content) {
