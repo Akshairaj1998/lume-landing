@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wrist Check on LUME</title>
+  <!-- Premium Fonts from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <!-- Supabase JS Client library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #F5F0E8;
+      --cream-dark: #E0D8C8;
+      --cream-card: #D8CEBC;
+      --gold: #A07820;
+      --gold-light: #B08830;
+      --brown: #0F0804;
+      --brown-light: #2E1A0E;
+      --brown-muted: #4A3020;
+      --white: #FFFFFF;
+      --border: #D5C3AE;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--brown);
+      font-family: 'EB Garamond', serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 16px;
+    }
+
+    /* Loading / Error States */
+    .status-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      text-align: center;
+      font-size: 24px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      color: var(--brown-muted);
+    }
+
+    .loader {
+      border: 3px solid var(--cream-dark);
+      border-top: 3px solid var(--gold);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Post Card Container */
+    #post-container {
+      display: none;
+      width: 100%;
+      max-width: 500px;
+      background: var(--white);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(15, 8, 4, 0.04);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    /* Header: User Avatar & Display Name */
+    .card-header {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+      border: 1px solid var(--border);
+      background-color: var(--cream);
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .display-name {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--brown);
+    }
+
+    .watch-name {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Wrist Check Photo Area */
+    .image-container {
+      width: 100%;
+      height: 380px;
+      overflow: hidden;
+      position: relative;
+      background-color: var(--cream-dark);
+    }
+
+    .post-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Content/Caption & Respect Count */
+    .card-body {
+      padding: 20px;
+    }
+
+    .caption {
+      font-size: 18px;
+      line-height: 1.5;
+      color: var(--brown-light);
+      margin-bottom: 20px;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(160, 120, 32, 0.1);
+      padding-top: 16px;
+    }
+
+    .respect-badge {
+      display: flex;
+      align-items: center;
+      color: var(--gold);
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .crown-icon {
+      width: 22px;
+      height: 22px;
+      fill: var(--gold);
+      margin-right: 8px;
+    }
+
+    /* Actions Section Below Card */
+    .actions-container {
+      display: none;
+      width: 100%;
+      max-width: 500px;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 16px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--white);
+      border: 1px solid var(--gold);
+      box-shadow: 0 4px 12px rgba(160, 120, 32, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--brown-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(160, 120, 32, 0.05);
+      border-color: var(--brown-muted);
+      transform: translateY(-1px);
+    }
+
+    /* Logo Header */
+    .header-logo {
+      font-family: 'Raleway', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--brown);
+      margin-bottom: 40px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="header-logo">LUME</a>
+
+  <!-- Loading State -->
+  <div id="loader" class="status-container">
+    <div class="loader"></div>
+    <p>Loading Wrist Check...</p>
+  </div>
+
+  <!-- Error State -->
+  <div id="error" class="status-container" style="display: none;">
+    <p>Could not load Wrist Check.</p>
+  </div>
+
+  <!-- Post Card -->
+  <div id="post-container">
+    <div class="card-header">
+      <img id="avatar" class="avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100%' height='100%' fill='%23D8CEBC'/></svg>" alt="Avatar">
+      <div class="user-info">
+        <span id="display-name" class="display-name">Collector</span>
+        <span id="watch-name" class="watch-name" style="display: none;"></span>
+      </div>
+    </div>
+
+    <div class="image-container">
+      <img id="post-image" class="post-image" src="" alt="Wrist Check">
+    </div>
+
+    <div class="card-body">
+      <p id="caption" class="caption" style="display: none;"></p>
+      <div class="action-row">
+        <div class="respect-badge">
+          <!-- Crown SVG icon -->
+          <svg class="crown-icon" viewBox="0 0 24 24">
+            <path d="M12 2L9 7L4 6L7 13H17L20 6L15 7L12 2M18 15H6V17H18V15M18 18H6V20H18V18Z"/>
+          </svg>
+          Respect (<span id="respect-count">0</span>)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Download / Open Buttons -->
+  <div id="actions" class="actions-container">
+    <button onclick="openInLume()" class="btn btn-primary">Open in LUME</button>
+    <button onclick="downloadLume()" class="btn btn-secondary">Download LUME</button>
+  </div>
+
+  <script>
+    // Supabase credentials
+    const supabaseUrl = 'https://jbjwocfvnyoquvbyqkdp.supabase.co';
+    const supabaseKey = 'sb_publishable_UouGUwK7UyvWu49U6LvUZQ_otoywEOz';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Get postId from URL path or query parameter fallback (for local testing)
+    const urlParams = new URLSearchParams(window.location.search);
+    let postId = urlParams.get('id');
+    if (!postId) {
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      postId = pathParts[pathParts.length - 1];
+    }
+    const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.lume.watch';
+    const androidIntentUrl = `intent://lume.app/post/${postId}#Intent;scheme=https;package=com.lume.watch;end`;
+
+    function openInLume() {
+      if (/android/i.test(navigator.userAgent)) {
+        window.location.href = androidIntentUrl;
+      } else {
+        window.location.href = playStoreUrl;
+      }
+    }
+
+    function downloadLume() {
+      window.location.href = playStoreUrl;
+    }
+
+    async function loadPost() {
+      if (!postId || postId === 'post') {
+        showError('No post specified.');
+        return;
+      }
+
+      try {
+        // 1. Fetch Post record
+        const { data: post, error: postErr } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('id', postId)
+          .single();
+
+        if (postErr || !post) {
+          showError('Wrist Check not found.');
+          return;
+        }
+
+        // 2. Fetch User Profile
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('display_name, avatar_url')
+          .eq('id', post.user_id)
+          .single();
+
+        // 3. Fetch Watch Details (if watch_id exists)
+        let watch = null;
+        if (post.watch_id) {
+          const { data: w } = await supabase
+            .from('watches')
+            .select('brand, model')
+            .eq('id', post.watch_id)
+            .single();
+          watch = w;
+        }
+
+        // 4. Fetch Post Media (Image URL)
+        const { data: media } = await supabase
+          .from('post_media')
+          .select('image_url')
+          .eq('post_id', postId);
+
+        // 5. Fetch Respect Count (likes)
+        const { count: likesCount } = await supabase
+          .from('post_likes')
+          .select('*', { count: 'exact', head: true })
+          .eq('post_id', postId);
+
+        // Update UI
+        if (profile) {
+          document.getElementById('display-name').textContent = profile.display_name || 'Collector';
+          if (profile.avatar_url) {
+            document.getElementById('avatar').src = profile.avatar_url;
+          }
+        }
+
+        if (watch) {
+          const watchNameEl = document.getElementById('watch-name');
+          watchNameEl.textContent = `${watch.brand} ${watch.model}`;
+          watchNameEl.style.display = 'block';
+        }
+
+        if (media && media.length > 0) {
+          document.getElementById('post-image').src = media[0].image_url;
+        }
+
+        if (post.content) {
+          const captionEl = document.getElementById('caption');
+          captionEl.textContent = post.content;
+          captionEl.style.display = 'block';
+        }
+
+        document.getElementById('respect-count').textContent = likesCount || 0;
+
+        // Display contents
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('post-container').style.display = 'block';
+        document.getElementById('actions').style.display = 'flex';
+
+      } catch (err) {
+        showError('An error occurred while loading post.');
+      }
+    }
+
+    function showError(message) {
+      document.getElementById('loader').style.display = 'none';
+      const errorEl = document.getElementById('error');
+      errorEl.querySelector('p').textContent = message;
+      errorEl.style.display = 'flex';
+    }
+
+    // Run on startup
+    window.addEventListener('DOMContentLoaded', loadPost);
+  </script>
+</body>
+</html>
