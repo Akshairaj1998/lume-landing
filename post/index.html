@@ -7,7 +7,7 @@
   <!-- Premium Fonts from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <!-- Supabase JS Client library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -281,22 +281,14 @@
   </div>
 
   <script>
-    // Supabase credentials
-    const supabaseUrl = 'https://jbjwocfvnyoquvbyqkdp.supabase.co';
-    const supabaseKey = 'sb_publishable_UouGUwK7UyvWu49U6LvUZQ_otoywEOz';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-    // Get postId from URL path or query parameter fallback (for local testing)
-    const urlParams = new URLSearchParams(window.location.search);
-    let postId = urlParams.get('id');
-    if (!postId) {
-      const pathParts = window.location.pathname.split('/').filter(Boolean);
-      postId = pathParts[pathParts.length - 1];
-    }
-     const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.lume.watch';
-    const androidIntentUrl = `intent://lume-waitlist-delta.vercel.app/post/${postId}#Intent;scheme=https;package=com.lume.watch;end`;
+    const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.lume.watch';
 
     function openInLume() {
+      // Get postId from path
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const postId = pathParts[pathParts.length - 1];
+      const androidIntentUrl = `intent://lume-waitlist-delta.vercel.app/post/${postId}#Intent;scheme=https;package=com.lume.watch;end`;
+
       if (/android/i.test(navigator.userAgent)) {
         window.location.href = androidIntentUrl;
       } else {
@@ -309,14 +301,31 @@
     }
 
     async function loadPost() {
+      // Get postId from URL path or query parameter fallback (for local testing)
+      const urlParams = new URLSearchParams(window.location.search);
+      let postId = urlParams.get('id');
+      if (!postId) {
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        postId = pathParts[pathParts.length - 1];
+      }
+
       if (!postId || postId === 'post') {
         showError('No post specified.');
         return;
       }
 
       try {
+        if (typeof supabase === 'undefined') {
+          throw new Error('Supabase client failed to load from CDN. This may be due to an adblocker or extension blocking the network request.');
+        }
+
+        // Supabase credentials
+        const supabaseUrl = 'https://jbjwocfvnyoquvbyqkdp.supabase.co';
+        const supabaseKey = 'sb_publishable_UouGUwK7UyvWu49U6LvUZQ_otoywEOz';
+        const client = supabase.createClient(supabaseUrl, supabaseKey);
+
         // 1. Fetch Post record
-        const { data: post, error: postErr } = await supabase
+        const { data: post, error: postErr } = await client
           .from('posts')
           .select('*')
           .eq('id', postId)
@@ -328,7 +337,7 @@
         }
 
         // 2. Fetch User Profile
-        const { data: profile } = await supabase
+        const { data: profile } = await client
           .from('profiles')
           .select('display_name, avatar_url')
           .eq('id', post.user_id)
@@ -337,7 +346,7 @@
         // 3. Fetch Watch Details (if watch_id exists)
         let watch = null;
         if (post.watch_id) {
-          const { data: w } = await supabase
+          const { data: w } = await client
             .from('watches')
             .select('brand, model')
             .eq('id', post.watch_id)
@@ -346,13 +355,13 @@
         }
 
         // 4. Fetch Post Media (Image URL)
-        const { data: media } = await supabase
+        const { data: media } = await client
           .from('post_media')
           .select('image_url')
           .eq('post_id', postId);
 
         // 5. Fetch Respect Count (likes)
-        const { count: likesCount } = await supabase
+        const { count: likesCount } = await client
           .from('post_likes')
           .select('*', { count: 'exact', head: true })
           .eq('post_id', postId);
@@ -389,7 +398,8 @@
         document.getElementById('actions').style.display = 'flex';
 
       } catch (err) {
-        showError('An error occurred while loading post.');
+        console.error(err);
+        showError('An error occurred: ' + err.message);
       }
     }
 
