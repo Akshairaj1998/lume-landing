@@ -349,23 +349,22 @@
         }
 
         // 2. Fetch User Profile
-        const { data: profile } = await client
+        const { data: profiles } = await client
           .from('profiles')
           .select('display_name, avatar_url')
           .eq('id', post.user_id)
-          .single()
           .throwOnError();
+        const profile = (profiles && profiles.length > 0) ? profiles[0] : null;
 
         // 3. Fetch Watch Details (if watch_id exists)
         let watch = null;
         if (post.watch_id) {
-          const { data: w } = await client
+          const { data: watches } = await client
             .from('watches')
             .select('brand, model')
             .eq('id', post.watch_id)
-            .single()
             .throwOnError();
-          watch = w;
+          watch = (watches && watches.length > 0) ? watches[0] : null;
         }
 
         // 4. Fetch Post Media (Image URL & image_transform matrix)
