@@ -44,8 +44,8 @@ function extractThumbnail(item) {
     || attributeValue(item, '(?:media:)?content', 'url')
     || attributeValue(item, 'enclosure', 'url')
     || (() => {
-      const description = tagValue(item, 'description') || '';
-      return description.match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i)?.[1] || null;
+      const body = tagValue(item, 'content:encoded') || tagValue(item, 'description') || '';
+      return body.match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i)?.[1] || null;
     })();
 }
 
