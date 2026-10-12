@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/app", "destination": "/app/index.html" },
+    { "source": "/app/:path*", "destination": "/app/index.html" },
     { "source": "/post/:id", "destination": "/post/index.html" }
   ]
 }
